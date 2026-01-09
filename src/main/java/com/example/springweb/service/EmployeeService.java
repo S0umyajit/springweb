@@ -1,5 +1,6 @@
 package com.example.springweb.service;
 
+import com.example.springweb.dto.EmployeeDto;
 import com.example.springweb.entities.EmployeeEntity;
 import com.example.springweb.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,40 @@ public class EmployeeService {
 //        this.employeeRepository = employeeRepository;
 //    }
 
-    public EmployeeEntity findById(Long id) {
-        return employeeRepository.findById(id).orElse(null);
-    }
+//    public EmployeeEntity findById(Long id) {
+//        return employeeRepository.findById(id).orElse(null);
+//    }
+public EmployeeDto findById(Long id) {
+    EmployeeEntity employeeEntity = employeeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-    public EmployeeEntity save(EmployeeEntity inputEmployee) {
-        return employeeRepository.save(inputEmployee);
-    }
+    // 2. Now it is safe to access data because we know it's not null
+    return new EmployeeDto(
+            employeeEntity.getEmpId(),
+            employeeEntity.getName(),
+            employeeEntity.getAge(),
+            employeeEntity.getEmail(),
+            employeeEntity.getDateOfJoining()
+        );
+}
 
-    public List<EmployeeEntity> findAll() {
-        return employeeRepository.findAll();
+//    public EmployeeEntity save(EmployeeEntity inputEmployee) {
+//        return employeeRepository.save(inputEmployee);
+//    }
+        public EmployeeDto save(EmployeeEntity inputEmployee) {
+
+        EmployeeEntity employeeEntity= employeeRepository.save(inputEmployee);
+
+        return new EmployeeDto(
+                employeeEntity.getEmpId(),
+                employeeEntity.getName(),
+                employeeEntity.getAge(),
+                employeeEntity.getEmail(),
+                employeeEntity.getDateOfJoining()
+        );
     }
+//
+//    public List<EmployeeEntity> findAll() {
+//        return employeeRepository.findAll();
+//    }
 }

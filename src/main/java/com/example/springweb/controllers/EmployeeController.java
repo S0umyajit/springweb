@@ -52,17 +52,21 @@ public class EmployeeController {
         this.employeeService=employeeService;
     }
     @GetMapping(path = "/{empId}")
-    public EmployeeEntity getEmployeeById(@PathVariable(name="empId") Long id){
+    public EmployeeDto getEmployeeById(@PathVariable(name="empId") Long id){
         return employeeService.findById(id);
     }
 
-    @GetMapping
-    public List<EmployeeEntity> getEmployee(@RequestParam(required = false) Integer age,
-                                            @RequestParam(required = false) String name){
-        return employeeService.findAll();
-    }
+//    @GetMapping
+//    public List<EmployeeEntity> getEmployee(@RequestParam(required = false) Integer age,
+//                                            @RequestParam(required = false) String name){
+//        return employeeService.findAll();
+//    }
+//    @PostMapping
+//    public EmployeeEntity createEmp( @RequestBody EmployeeEntity employeeEntity) {
+//        return employeeService.save(employeeEntity);
+//    }
     @PostMapping
-    public EmployeeEntity createEmp( @RequestBody EmployeeEntity employeeEntity) {
+    public EmployeeDto createEmp( @RequestBody EmployeeEntity employeeEntity) {
         return employeeService.save(employeeEntity);
-    }
+}
 }
