@@ -63,4 +63,27 @@ public EmployeeDto findById(Long id) {
         EmployeeEntity savedEmp= employeeRepository.save(toSaveEmp);
         return modelMapper.map(savedEmp,EmployeeDto.class);
     }
+
+    public EmployeeDto updateEmployeeById(Long employeeId, EmployeeDto employeeDto) {
+        boolean empExists=employeeRepository.existsById(employeeId);
+        if(empExists) {
+            EmployeeEntity employeeEntity = modelMapper.map(employeeDto, EmployeeEntity.class);
+            employeeEntity.setEmpId(employeeId);
+            EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
+            return modelMapper.map(employeeEntity1, EmployeeDto.class);
+        }
+        else {
+            EmployeeEntity employeeEntity=modelMapper.map(employeeDto,EmployeeEntity.class);
+            EmployeeEntity employeeEntity1=employeeRepository.save(employeeEntity);
+            return modelMapper.map(employeeEntity1,EmployeeDto.class);
+        }
+    }
+
+    public String deleteEmployeeById(Long employeeId) {
+        boolean empExists=employeeRepository.existsById(employeeId);
+        if(!empExists)
+            return "Employee id doesn't exists";
+        employeeRepository.deleteById(employeeId);
+        return "Employee id: "+employeeId +" has been deleted";
+    }
 }
