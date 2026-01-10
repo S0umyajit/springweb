@@ -56,17 +56,17 @@ public class EmployeeController {
         return employeeService.findById(id);
     }
 
-//    @GetMapping
-//    public List<EmployeeEntity> getEmployee(@RequestParam(required = false) Integer age,
-//                                            @RequestParam(required = false) String name){
-//        return employeeService.findAll();
-//    }
+    @GetMapping
+    public List<EmployeeDto> getEmployee(@RequestParam(required = false) Integer age,
+                                            @RequestParam(required = false) String name){
+        return employeeService.findAll();
+    }
 //    @PostMapping
 //    public EmployeeEntity createEmp( @RequestBody EmployeeEntity employeeEntity) {
 //        return employeeService.save(employeeEntity);
 //    }
-    @PostMapping
-    public EmployeeDto createEmp( @RequestBody EmployeeEntity employeeEntity) {
-        return employeeService.save(employeeEntity);
+        @PostMapping
+        public EmployeeDto createEmp( @RequestBody EmployeeDto employeeDto) {
+        return employeeService.save(employeeDto);
 }
 }
