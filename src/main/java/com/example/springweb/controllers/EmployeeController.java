@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/employee")
@@ -76,5 +77,12 @@ public class EmployeeController {
     @DeleteMapping(path="/{employeeId}")
     public String deleteEmployeeById(@PathVariable Long employeeId){
         return employeeService.deleteEmployeeById(employeeId);
+    }
+
+    @PatchMapping(path="/{employeeId}")
+    public EmployeeDto updatePartialEmployeeById(@RequestBody Map<String,Object> updates,
+                                                 @PathVariable Long employeeId){
+        return employeeService.updatePartialEmployeeById(employeeId,updates);
+
     }
 }

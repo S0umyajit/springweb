@@ -12,15 +12,18 @@ public class EmployeeDto {
     private String email;
     private LocalDate dateOfJoining;
 
+    private boolean isActive;
+
     public EmployeeDto(){
 
     }
-    public EmployeeDto(Long empId, String name, int age, String email, LocalDate dateOfJoining) {
+    public EmployeeDto(Long empId, String name, int age, String email, LocalDate dateOfJoining, boolean isActive) {
         this.empId = empId;
         this.name = name;
         this.age = age;
         this.email = email;
         this.dateOfJoining = dateOfJoining;
+        this.isActive=isActive;
     }
 
     public Long getEmpId() {
@@ -61,5 +64,13 @@ public class EmployeeDto {
 
     public void setDateOfJoining(LocalDate dateOfJoining) {
         this.dateOfJoining = dateOfJoining;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive=isActive;
     }
 }
