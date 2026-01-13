@@ -11,5 +11,4 @@ public class SpringwebApplication {
         SpringApplication.run(SpringwebApplication.class, args);
         System.out.println("Hello");
 	}
-
 }

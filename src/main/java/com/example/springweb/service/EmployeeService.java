@@ -36,19 +36,18 @@ public class EmployeeService {
 //    public EmployeeEntity findById(Long id) {
 //        return employeeRepository.findById(id).orElse(null);
 //    }
-public EmployeeDto findById(Long id) {
-    EmployeeEntity employeeEntity = employeeRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Employee not found"));
+public Optional<EmployeeDto> findById(Long id) {
+    Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
 
     // 2. Now it is safe to access data because we know it's not null
-    return modelMapper.map(employeeEntity,EmployeeDto.class);
+    return employeeEntity.map(employeeEntity1 -> modelMapper.map(employeeEntity1,EmployeeDto.class));
 }
 
 //    public EmployeeEntity save(EmployeeEntity inputEmployee) {
 //        return employeeRepository.save(inputEmployee);
 //    }
 
-    public List<EmployeeDto> findAll() {
+    public List<EmployeeDto> getAllEmployee() {
         List<EmployeeEntity> employeeEntity=employeeRepository.findAll();
 //        return employeeEntity
 //                .stream()
@@ -62,7 +61,7 @@ public EmployeeDto findById(Long id) {
         }
         return empDto;
     }
-    public EmployeeDto save(EmployeeDto inputEmployee) {
+    public EmployeeDto createEmp(EmployeeDto inputEmployee) {
         EmployeeEntity toSaveEmp=modelMapper.map(inputEmployee,EmployeeEntity.class);
         EmployeeEntity savedEmp= employeeRepository.save(toSaveEmp);
         return modelMapper.map(savedEmp,EmployeeDto.class);
@@ -83,14 +82,15 @@ public EmployeeDto findById(Long id) {
         }
     }
     boolean empExist(long employeeId){
+
         return employeeRepository.existsById(employeeId);
     }
-    public String deleteEmployeeById(Long employeeId) {
+    public Boolean deleteEmployeeById(Long employeeId) {
         boolean empExists=empExist(employeeId);
         if(!empExists)
-            return "Employee id doesn't exists";
+            return false;
         employeeRepository.deleteById(employeeId);
-        return "Employee id: "+employeeId +" has been deleted";
+        return true;
     }
 
     public EmployeeDto updatePartialEmployeeById(Long employeeId, Map<String, Object> updates) {
