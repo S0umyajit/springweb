@@ -18,7 +18,7 @@ public class EmployeeDto {
 
     @Max(value = 60, message = "Age can't be more than 60")
     @Min(value = 18, message = "Age can't be less than 18")
-    private int age;
+    private Integer age;
 
     @Email(message = "Email should be a valid email")
     private String email;
@@ -29,27 +29,16 @@ public class EmployeeDto {
 
     @NotNull(message = "Salary should be provided")
     @Positive(message = "Salary should be positive")
-    private int salary;
+    @Digits(integer = 6,fraction = 2,message = "salary format should be in XXXXXX.YY")
+    @DecimalMax("10000.99")
+    @DecimalMin("100.11")
+    private Double salary;
 
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
+    @PastOrPresent(message = "date of joining date can't be in future")
     private LocalDate dateOfJoining;
 
-    private boolean isActive;
+    @AssertTrue(message = "Employee Should be active employee")
+    private Boolean isActive;
 
     public EmployeeDto(){
 
@@ -71,7 +60,7 @@ public class EmployeeDto {
         return name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -91,7 +80,7 @@ public class EmployeeDto {
         this.name = name;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -103,11 +92,26 @@ public class EmployeeDto {
         this.dateOfJoining = dateOfJoining;
     }
 
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean isActive) {
+    public void setActive(Boolean isActive) {
         this.isActive=isActive;
+    }
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

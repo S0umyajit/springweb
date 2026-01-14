@@ -20,11 +20,11 @@ public class EmployeeEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long empId;
     private String name;
-    private int age;
+    private Integer age;
     private String email;
     private LocalDate dateOfJoining;
-    private boolean isActive;
+    private Boolean isActive;
     private String role;
-    private int salary;
+    private Double salary;
 
 }
