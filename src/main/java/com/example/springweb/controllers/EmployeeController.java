@@ -80,7 +80,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDto1,HttpStatus.CREATED);
     }
     @PutMapping(path="/{employeeId}")
-    public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable Long employeeId, @RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<EmployeeDto> updateEmployeeById(@PathVariable Long employeeId, @RequestBody @Valid EmployeeDto employeeDto){
         return ResponseEntity.ok(employeeService.updateEmployeeById(employeeId,employeeDto));
     }
     @DeleteMapping(path="/{employeeId}")

@@ -2,6 +2,7 @@ package com.example.springweb.dto;
 
 
 
+import com.example.springweb.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -23,8 +24,9 @@ public class EmployeeDto {
     @Email(message = "Email should be a valid email")
     private String email;
 
-    @Pattern(regexp = "^ADMIN|USER$",message = "Role Must be ADMIN or USER")
+//    @Pattern(regexp = "^ADMIN|USER$",message = "Role Must be ADMIN or USER")
     @NotBlank(message = "role must be provided")
+    @EmployeeRoleValidation
     private String role;
 
     @NotNull(message = "Salary should be provided")
