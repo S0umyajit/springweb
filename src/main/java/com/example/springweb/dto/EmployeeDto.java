@@ -1,15 +1,52 @@
 package com.example.springweb.dto;
 
 
+
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 
 
 public class EmployeeDto {
 
     private Long empId;
+    @NotNull(message = "name can't be empty")
+    @NotEmpty(message = "name can't be empty")
+    @NotBlank(message = "name can't be blank")
+    @Size(min = 3, max = 10, message = "name should have at least 3 characters and at most 10")
     private String name;
+
+    @Max(value = 60, message = "Age can't be more than 60")
+    @Min(value = 18, message = "Age can't be less than 18")
     private int age;
+
+    @Email(message = "Email should be a valid email")
     private String email;
+
+    @Pattern(regexp = "^ADMIN|USER$",message = "Role Must be ADMIN or USER")
+    @NotBlank(message = "role must be provided")
+    private String role;
+
+    @NotNull(message = "Salary should be provided")
+    @Positive(message = "Salary should be positive")
+    private int salary;
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     private LocalDate dateOfJoining;
 
     private boolean isActive;

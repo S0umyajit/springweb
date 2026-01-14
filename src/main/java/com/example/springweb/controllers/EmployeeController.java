@@ -5,6 +5,7 @@ import com.example.springweb.entities.EmployeeEntity;
 import com.example.springweb.repositories.EmployeeRepository;
 import com.example.springweb.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ public class EmployeeController {
 //        return employeeService.save(employeeEntity);
 //    }
     @PostMapping
-    public ResponseEntity<EmployeeDto> createEmp( @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<EmployeeDto> createEmp(@Valid @RequestBody EmployeeDto employeeDto) {
         EmployeeDto employeeDto1=employeeService.createEmp(employeeDto);
         return new ResponseEntity<>(employeeDto1,HttpStatus.CREATED);
     }

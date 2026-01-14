@@ -24,5 +24,7 @@ public class EmployeeEntity {
     private String email;
     private LocalDate dateOfJoining;
     private boolean isActive;
+    private String role;
+    private int salary;
 
 }
