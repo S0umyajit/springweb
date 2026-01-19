@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -62,7 +63,12 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable(name="empId") Long id){
         Optional<EmployeeDto> employeeDto=employeeService.findById(id);
         return employeeDto.map(employeeDto1 -> ResponseEntity.ok(employeeDto1)).
-                orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+                orElseThrow(()->new NoSuchElementException("Employee not found"));
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> emplpyeeNotFoundExcep(NoSuchElementException exception){
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
