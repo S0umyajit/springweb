@@ -2,6 +2,7 @@ package com.example.springweb.controllers;
 
 import com.example.springweb.dto.EmployeeDto;
 import com.example.springweb.entities.EmployeeEntity;
+import com.example.springweb.exceptions.ResourceNotFoundException;
 import com.example.springweb.repositories.EmployeeRepository;
 import com.example.springweb.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
@@ -63,12 +64,7 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable(name="empId") Long id){
         Optional<EmployeeDto> employeeDto=employeeService.findById(id);
         return employeeDto.map(employeeDto1 -> ResponseEntity.ok(employeeDto1)).
-                orElseThrow(()->new NoSuchElementException("Employee not found"));
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<String> emplpyeeNotFoundExcep(NoSuchElementException exception){
-        return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
+                orElseThrow(()->new ResourceNotFoundException("Employee not found"));
     }
 
     @GetMapping
