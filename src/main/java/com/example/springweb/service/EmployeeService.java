@@ -2,6 +2,7 @@ package com.example.springweb.service;
 
 import com.example.springweb.dto.EmployeeDto;
 import com.example.springweb.entities.EmployeeEntity;
+import com.example.springweb.exceptions.ResourceNotFoundException;
 import com.example.springweb.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,13 @@ public class EmployeeService {
 //    public EmployeeEntity findById(Long id) {
 //        return employeeRepository.findById(id).orElse(null);
 //    }
-public Optional<EmployeeDto> findById(Long id) {
-    Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
+    public Optional<EmployeeDto> findById(Long id) {
+        empExist(id);
+        Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(id);
 
     // 2. Now it is safe to access data because we know it's not null
-    return employeeEntity.map(employeeEntity1 -> modelMapper.map(employeeEntity1,EmployeeDto.class));
-}
+        return employeeEntity.map(employeeEntity1 -> modelMapper.map(employeeEntity1,EmployeeDto.class));
+    }
 
 //    public EmployeeEntity save(EmployeeEntity inputEmployee) {
 //        return employeeRepository.save(inputEmployee);
@@ -68,35 +70,41 @@ public Optional<EmployeeDto> findById(Long id) {
     }
 
     public EmployeeDto updateEmployeeById(Long employeeId, EmployeeDto employeeDto) {
-        boolean empExists=employeeRepository.existsById(employeeId);
-        if(empExists) {
+//        boolean empExists=employeeRepository.existsById(employeeId);
+        empExist(employeeId);
+//        if(empExists) {
             EmployeeEntity employeeEntity = modelMapper.map(employeeDto, EmployeeEntity.class);
             employeeEntity.setEmpId(employeeId);
             EmployeeEntity employeeEntity1 = employeeRepository.save(employeeEntity);
             return modelMapper.map(employeeEntity1, EmployeeDto.class);
-        }
-        else {
-            EmployeeEntity employeeEntity=modelMapper.map(employeeDto,EmployeeEntity.class);
-            EmployeeEntity employeeEntity1=employeeRepository.save(employeeEntity);
-            return modelMapper.map(employeeEntity1,EmployeeDto.class);
-        }
+//        }
+//        else {
+//            EmployeeEntity employeeEntity=modelMapper.map(employeeDto,EmployeeEntity.class);
+//            EmployeeEntity employeeEntity1=employeeRepository.save(employeeEntity);
+//            return modelMapper.map(employeeEntity1,EmployeeDto.class);
+//            throw new ResourceNotFoundException("Couldn't find the Employee with id: "+employeeId);
+//        }
     }
-    boolean empExist(long employeeId){
-
-        return employeeRepository.existsById(employeeId);
+    void empExist(long employeeId){
+//        return employeeRepository.existsById(employeeId);
+        boolean exists= employeeRepository.existsById(employeeId);
+        if(!exists) {
+            throw new ResourceNotFoundException("Couldn't find the Employee with id: " + employeeId);
+        }
     }
     public Boolean deleteEmployeeById(Long employeeId) {
-        boolean empExists=empExist(employeeId);
-        if(!empExists)
-            return false;
+//        boolean empExists=empExist(employeeId);
+        empExist(employeeId);
+//        if(!empExists)
+//            return false;
         employeeRepository.deleteById(employeeId);
         return true;
     }
 
     public EmployeeDto updatePartialEmployeeById(Long employeeId, Map<String, Object> updates) {
-        boolean empExists=empExist(employeeId);
-
-        if(!empExists) return null;
+//        boolean empExists=empExist(employeeId);
+        empExist(employeeId);
+//        if(!empExists) return null;
         EmployeeEntity employeeEntity=employeeRepository.findById(employeeId).get();
         updates.forEach((field,value) -> {
             Field fieldToBeUpdated=ReflectionUtils.findRequiredField(EmployeeEntity.class,field);
